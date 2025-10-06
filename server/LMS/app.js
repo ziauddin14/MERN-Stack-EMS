@@ -6,6 +6,7 @@ import morgan from "morgan"
 import dotenv from "dotenv"
 import { connectDB } from "./lib/db.js"
 import authRoutes from "./routes/auth.js"
+import departmentRouter from './routes/department.js'
   
   dotenv.config({path: './.env',});
   
@@ -36,6 +37,7 @@ app.use(morgan('dev'))
 
   // your routes here
   app.use('/api/auth', authRoutes);
+  app.use('/api/department', departmentRouter);
 
     
   app.get("/", (req, res) => {

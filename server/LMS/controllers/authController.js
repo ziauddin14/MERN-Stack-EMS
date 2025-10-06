@@ -6,7 +6,7 @@ import authenticateUser from "../middlewares/authMiddleware.js";
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email : email });
     if (!user) {
       console.log("User not found with email:", email);
       return res

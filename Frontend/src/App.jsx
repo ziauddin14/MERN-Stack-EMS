@@ -8,6 +8,8 @@ import EmployeeDashboard from "./pages/EmployeeDashboard";
 import PrivetRoutes from "./utils/PrivetRoutes";
 import ProtustedRoutes from "./utils/ProtustedRoutes";
 import DepartmentList from "./components/department/DepartmentList";
+import AddDepartments from "./components/department/AddDepartments";
+import EditDepartment from "./components/department/EditDepartment";
 function App() {
   return (
     <Routes>
@@ -25,7 +27,9 @@ function App() {
         }
       >
         <Route index element={<AdminBody />} />
-        <Route path="departments" element={<DepartmentList />} />
+        <Route path="/admin-dashboard/departments" element={<DepartmentList />} />
+        <Route path="/admin-dashboard/add-department" element={<AddDepartments />} />
+        <Route path="/admin-dashboard/department/:id" element={<EditDepartment />} />
       </Route>
 
       <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
