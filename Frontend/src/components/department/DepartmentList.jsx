@@ -8,6 +8,12 @@ import axios from "axios";
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
   const [depLoading, setDepLoading] = useState(false)
+  const [filterDepartments, setFilterDepartments] = useState([])
+
+  const onDepartmentDelete =async (id) => {
+     const data = departments.filter(dep => dep._id !== id)
+     setDepartments(data)
+  }
   useEffect(() => {
   const fetchDepartments = async () => {
     setDepLoading(true);
@@ -24,10 +30,11 @@ const DepartmentList = () => {
           _id: dep._id,
           sno: sno++,
           dep_name: dep.dep_name,
-          action: <DepartmentButtons _id={dep._id}/>,
+          action: <DepartmentButtons _id={dep._id} onDepartmentDelete={onDepartmentDelete}/>,
         }));
 
         setDepartments(data);
+        setFilterDepartments(data)
       } else {
         console.warn("No success field found in response:", response.data);
       }
@@ -43,6 +50,12 @@ const DepartmentList = () => {
 
   fetchDepartments();
 }, []);
+const filteredDepartments = (e) => {
+   const records = departments.filter((dep) => {
+    dep.dep_name.toLowerCase().includes(e.target.value.toLowerCase())
+   })
+   setFilterDepartments(records)
+}
 
   return (
     <>{depLoading ? <div>Loading.....</div> :
@@ -57,6 +70,7 @@ const DepartmentList = () => {
           id=""
           placeholder="Search By Dep Name"
           className="px-4 py-0.5"
+          onChange={filteredDepartments}
         />
         <Link
           to="/admin-dashboard/add-department"
@@ -66,7 +80,7 @@ const DepartmentList = () => {
         </Link>
       </div>
       <div>
-        <DataTable columns={columns} data={departments}/>
+        <DataTable columns={columns} data={filterDepartments} pagination/>
       </div>
     </div>
      }

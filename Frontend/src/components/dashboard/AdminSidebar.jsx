@@ -28,8 +28,12 @@ const AdminSidebar = () => {
           <span>Dashboard</span>
         </NavLink>
         <NavLink
-          to="/admin-dahsboard"
-          className="flex items-center space-x-4 block py-2.5 px-4 rounded"
+          to="/admin-dashboard/employee"
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-cyan-900" : ""
+            } flex items-center space-x-4 block py-2.5 px-4 rounded'`
+          }
         >
           <FaUsers />
           <span>Employee</span>

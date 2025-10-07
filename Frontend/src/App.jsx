@@ -10,6 +10,8 @@ import ProtustedRoutes from "./utils/ProtustedRoutes";
 import DepartmentList from "./components/department/DepartmentList";
 import AddDepartments from "./components/department/AddDepartments";
 import EditDepartment from "./components/department/EditDepartment";
+import List from "./components/employee/List";
+import Add from "./components/employee/Add";
 function App() {
   return (
     <Routes>
@@ -30,6 +32,9 @@ function App() {
         <Route path="/admin-dashboard/departments" element={<DepartmentList />} />
         <Route path="/admin-dashboard/add-department" element={<AddDepartments />} />
         <Route path="/admin-dashboard/department/:id" element={<EditDepartment />} />
+        <Route path="/admin-dashboard/employee" element={<List />} />
+        <Route path="/admin-dashboard/add-employee" element={<Add />} />
+
       </Route>
 
       <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
