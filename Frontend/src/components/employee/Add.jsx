@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchDepartments } from "../../utils/EmployeeHalper";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Add = () => {
   const [departments, setDepartments] = useState([]);
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate()
   useEffect(() => {
     const getDepartments = async () => {
       const departments = await fetchDepartments();
@@ -13,9 +16,9 @@ const Add = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, file } = e.target;
+    const { name, value, files } = e.target; 
     if (name == "image") {
-      setFormData((prevData) => ({ ...prevData, [name]: file[0] }));
+      setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
@@ -23,14 +26,14 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataObj = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataObj.append(key, formData[key]);
-    });
+    // const formDataObj = new FormData();
+    // Object.keys(formData).forEach((key) => {
+    //   formDataObj.append(key, formData[key]);
+    // });
     try {
       const response = await axios.post(
         "http://localhost:4000/api/employee/add",
-        formDataObj,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -94,7 +97,7 @@ const Add = () => {
             </label>
             <input
               type="employeeId"
-              name="Employee ID"
+              name="employeeId"
               onChange={handleChange}
               placeholder="12548"
               className="mt-1 p-2 block w-full border border-cyan-300 rounded-md"
@@ -146,7 +149,7 @@ const Add = () => {
               Maritel Status
             </label>
             <select
-              name="maritelstatus"
+              name="maritalStatus"
               onChange={handleChange}
               id=""
               className="mt-1 p-2 block w-full border border-cyan-300 rounded-md"
@@ -249,7 +252,7 @@ const Add = () => {
             </select>
           </div>
           {/*Image Upload*/}
-          <div>
+          {/* <div>
             <label
               htmlFor=""
               className="block text-sm font-medium text-cyan-700"
@@ -264,7 +267,7 @@ const Add = () => {
               accept="image/*"
               className="mt-1 p-2 block w-full border border-cyan-300 rounded-md"
             />
-          </div>
+          </div> */}
           <button
             type="submit"
             className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 text-lg rounded"
