@@ -57,8 +57,12 @@ const AdminSidebar = () => {
           <span>Leave</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard"
-          className="flex items-center space-x-4 block py-2.5 px-4 rounded"
+          to="/admin-dashboard/salary/add"
+           className={({ isActive }) =>
+            `${
+              isActive ? "bg-cyan-900" : ""
+            } flex items-center space-x-4 block py-2.5 px-4 rounded'`
+          }
         >
           <FaMoneyBillWave />
           <span>Salary</span>

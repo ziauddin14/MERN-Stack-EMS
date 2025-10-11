@@ -154,5 +154,27 @@ const updateEmployee = async (req, res) => {
     });
   }
 };
+const fetchEmployeesByDepId = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const employees = await Employee.find({ department: id });
+    if (!employees) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Employee not found" });
+    }
 
-export { addEmployee, getEmployee, getEmployees, updateEmployee };
+    return res.status(200).json({ success: true, employees });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, error: "get single employee server error" });
+  }
+};
+export {
+  addEmployee,
+  getEmployee,
+  getEmployees,
+  updateEmployee,
+  fetchEmployeesByDepId,
+};

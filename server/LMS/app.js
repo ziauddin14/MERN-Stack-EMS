@@ -8,6 +8,7 @@ import { connectDB } from "./lib/db.js"
 import authRoutes from "./routes/auth.js"
 import departmentRouter from './routes/department.js'
 import employeeRouter from './routes/employee.js'
+import salaryRouter from './routes/salary.js'
   
   dotenv.config({path: './.env',});
   
@@ -40,6 +41,7 @@ app.use(morgan('dev'))
   app.use('/api/auth', authRoutes);
   app.use('/api/department', departmentRouter);
   app.use('/api/employee', employeeRouter);
+  app.use('/api/salary', salaryRouter);
 
     
   app.get("/", (req, res) => {

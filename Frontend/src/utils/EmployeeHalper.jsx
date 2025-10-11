@@ -1,36 +1,58 @@
- 
- import axios from "axios";
- import { useNavigate } from "react-router-dom";
- import react from 'react'
- export const fetchDepartments = async () => {
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import react from "react";
+export const fetchDepartments = async () => {
+  let departments;
+  try {
+    const response = await axios.get("http://localhost:4000/api/department", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
 
-     let departments;
-    try {
-      const response = await axios.get("http://localhost:4000/api/department", {
+    if (response.data.success) {
+      departments = response.data.departments;
+    } else {
+      console.warn("No success field found in response:", response.data);
+    }
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+    if (error.response && !error.response.data.success) {
+      alert(error.response.data.error);
+    }
+  }
+  return departments;
+};
+//employee for salary form----
+export const getEmploye = async (id) => {
+  let employees;
+  try {
+    const response = await axios.get(
+      `http://localhost:4000/api/employee/department/${id}`,
+      {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-
-      if (response.data.success) {
-        departments = response.data.departments
-
-      } else {
-        console.warn("No success field found in response:", response.data);
       }
-    } catch (error) {
-      console.error("Error fetching departments:", error);
-      if (error.response && !error.response.data.success) {
-        alert(error.response.data.error);
-      }
-    } 
-    return departments
-  };
+    );
+    if (response.data.success) {
+      employees = response.data.employees;
+    } else {
+      console.warn("No success field found in response:", response.data);
+    }
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    if (error.response && !error.response.data.success) {
+      alert(error.response.data.error);
+    }
+  }
+  return employees;
+};
 import React from "react";
 
 const EmployeeButtons = ({ _id }) => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="flex space-x-4">
       <button
@@ -41,20 +63,16 @@ const EmployeeButtons = ({ _id }) => {
       </button>
       <button
         className="px-3 py-1 bg-teal-600 text-white rounded"
-        onClick={()=> navigate(`/admin-dashboard/employee/edit/${_id}`)}
+        onClick={() => navigate(`/admin-dashboard/employee/edit/${_id}`)}
       >
         Edit
       </button>
-       <button
-        className="px-3 py-1 bg-yellow-600 text-white rounded"
+      <button className="px-3 py-1 bg-yellow-600 text-white rounded"
+      onClick={() => navigate(`/admin-dashboard/salary/view/${_id}`)}
       >
         Salary
       </button>
-       <button
-        className="px-3 py-1 bg-red-600 text-white rounded"
-      >
-        Leave
-      </button>
+      <button className="px-3 py-1 bg-red-600 text-white rounded">Leave</button>
     </div>
   );
 };
@@ -75,12 +93,12 @@ export const columns = [
   {
     name: " Department",
     selector: (row) => row.dep_name,
-    width: "130px"
+    width: "130px",
   },
   {
     name: "DOB",
     selector: (row) => row.dob,
-    width: "100px"
+    width: "100px",
   },
   // {
   //   name: "Image",
@@ -90,6 +108,6 @@ export const columns = [
   {
     name: "Action",
     selector: (row) => <EmployeeButtons _id={row._id} />,
-    center: true
+    center: true,
   },
 ];
