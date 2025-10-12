@@ -16,11 +16,19 @@ import View from "./components/employee/View";
 import Edit from "./components/employee/Edit";
 import AddSalary from "./components/salary/Add";
 import ViewSalary from "./components/salary/ViewSalary";
+import BodyCard from "./components/employeeDashboard/BodyCard";
+import Profile from "./components/employeeDashboard/Profile";
+import LeaveList from "./components/leave/LeaveList";
+import AddLeave from "./components/leave/AddLeave";
+import Setting from "./components/employeeDashboard/Setting";
+import Unauthorized from "./pages/Unauthorized";
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/admin-dashboard" />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      
 
       <Route
         path="/admin-dashboard"
@@ -33,19 +41,47 @@ function App() {
         }
       >
         <Route index element={<AdminBody />} />
-        <Route path="/admin-dashboard/departments" element={<DepartmentList />} />
-        <Route path="/admin-dashboard/add-department" element={<AddDepartments />} />
-        <Route path="/admin-dashboard/department/:id" element={<EditDepartment />} />
+        <Route
+          path="/admin-dashboard/departments"
+          element={<DepartmentList />}
+        />
+        <Route
+          path="/admin-dashboard/add-department"
+          element={<AddDepartments />}
+        />
+        <Route
+          path="/admin-dashboard/department/:id"
+          element={<EditDepartment />}
+        />
         <Route path="/admin-dashboard/employee" element={<List />} />
         <Route path="/admin-dashboard/add-employee" element={<Add />} />
         <Route path="/admin-dashboard/employee/:id" element={<View />} />
         <Route path="/admin-dashboard/employee/edit/:id" element={<Edit />} />
         <Route path="/admin-dashboard/salary/add" element={<AddSalary />} />
-        <Route path="/admin-dashboard/salary/view/:id" element={<ViewSalary />} />
-
+        <Route
+          path="/admin-dashboard/salary/view/:id"
+          element={<ViewSalary />}
+        />
       </Route>
 
-      <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
+      <Route
+        path="/employee-dashboard"
+        element={
+          <PrivetRoutes>
+            <ProtustedRoutes>
+              <EmployeeDashboard requiredRole={["admin", "employee"]} />
+            </ProtustedRoutes>
+          </PrivetRoutes>
+        }
+      >
+      <Route index element={<BodyCard />} />
+      <Route path="/employee-dashboard/profile/:id" element={<Profile />} />
+      <Route path="/employee-dashboard/leaves" element={<LeaveList />} />
+      <Route path="/employee-dashboard/add-leave" element={<AddLeave />} />
+      <Route path="/employee-dashboard/salary/:id" element={<ViewSalary />} />
+      <Route path="/employee-dashboard/setting" element={<Setting />} />
+    </Route>
+      
     </Routes>
   );
 }

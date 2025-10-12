@@ -3,28 +3,35 @@ import User from "../models/User.js";
 
 const authenticateUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Token Not Found" });
+    const authHeader = req.headers.authorization;
+
+    // ✅ 1. Check header properly
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "No token provided" });
     }
+
+    const token = authHeader.split(" ")[1];
+
+    // ✅ 2. Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Token not found" });
+    if (!decoded?.id) {
+      return res.status(401).json({ success: false, message: "Invalid token" });
     }
-    const user = await User.findById({ _id: decoded.id }).select("-password");
+
+    // ✅ 3. Find user
+    const user = await User.findById(decoded.id).select("-password");
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
+
+    // ✅ 4. Attach user to request
     req.user = user;
+
     next();
   } catch (error) {
-    res.status(500).json({ success: false, message: "server error" });
+    console.error("Auth Middleware Error:", error.message);
+    res.status(401).json({ success: false, message: "Unauthorized or expired token" });
   }
 };
+
 export default authenticateUser;
