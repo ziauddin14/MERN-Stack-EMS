@@ -67,12 +67,18 @@ const EmployeeButtons = ({ _id }) => {
       >
         Edit
       </button>
-      <button className="px-3 py-1 bg-yellow-600 text-white rounded"
-      onClick={() => navigate(`/admin-dashboard/salary/view/${_id}`)}
+      <button
+        className="px-3 py-1 bg-yellow-600 text-white rounded"
+        onClick={() => navigate(`/admin-dashboard/salary/view/${_id}`)}
       >
         Salary
       </button>
-      <button className="px-3 py-1 bg-red-600 text-white rounded">Leave</button>
+      <button
+        className="px-3 py-1 bg-red-600 text-white rounded"
+        onClick={() => navigate(`/admin-dashboard/employee/leaves/${_id}`)}
+      >
+        Leave
+      </button>
     </div>
   );
 };

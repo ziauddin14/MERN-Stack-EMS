@@ -1,9 +1,12 @@
 import express from "express";
-import { addLeave, getLeaves } from "../controllers/leaveController.js";
+import { addLeave, getLeave, getLeaveDetails, getLeaves, updateLeave } from "../controllers/leaveController.js";
 
 const router = express.Router();
 
 router.post("/add", addLeave);
-router.get("/:id", getLeaves);
+router.get("/:id", getLeave);
+router.get("/detail/:id", getLeaveDetails);
+router.get("/", getLeaves)
+router.put("/:id",  updateLeave)
 
 export default router;

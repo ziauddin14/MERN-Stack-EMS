@@ -85,7 +85,7 @@ const AddSalary = () => {
     );
 
     if (res.data.success) {
-      alert(" Salary added successfully!");
+      alert("Salary added successfully!");
       navigate("/admin-dashboard/employee");
     }
   } catch (err) {
@@ -151,7 +151,6 @@ const AddSalary = () => {
               type="number"
               name="basicSalary"
               onChange={handleChange}
-              name="basicSalary"
               className="mt-1 p-2 block w-full border border-cyan-300 rounded-md"
             />
           </div>

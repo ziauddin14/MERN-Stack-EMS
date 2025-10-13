@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/authContex';
 import axios from 'axios';
 
 const LeaveList = () => {
   const { user } = useAuth();
   const [leaves, setLeaves] = useState([]);
-
+  const {id} = useParams()
   const fetchLeave = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/leave/${user._id}`, {
+      const response = await axios.get(`http://localhost:4000/api/leave/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
+      console.log(response.data);
+      
       if (response.data.success) {
         setLeaves(response.data.leaves);
       }
@@ -44,12 +45,14 @@ const LeaveList = () => {
           placeholder="Search By Dep Name"
           className="px-4 py-0.5 border border-cyan-400 rounded"
         />
-        <Link
+        {user.role === "employee" && (
+          <Link
           to="/employee-dashboard/add-leave"
           className="px-4 py-1 bg-teal-600 rounded text-white"
         >
           Add New Leave
         </Link>
+        )}
       </div>
 
       <div>
@@ -65,7 +68,7 @@ const LeaveList = () => {
             </tr>
           </thead>
           <tbody>
-            {leaves.length > 0 ? (
+            {(leaves?.length ?? 0) > 0 ? (
               leaves.map((leave) => (
                 <tr
                   key={leave._id}

@@ -23,7 +23,7 @@ const List = () => {
         const data = response.data.employee.map((emp) => ({
           _id: emp._id,
           sno: sno++,
-          dep_name: emp.department.dep_name,
+          dep_name: emp.department?.dep_name,
           name: emp.userId.name,
           dob: new Date(emp.dob).toLocaleDateString(),
           profileImage: emp.userId.profileImage,

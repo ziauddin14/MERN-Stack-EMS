@@ -2,7 +2,6 @@ import React from "react";
 import { useAuth } from "../context/authContex";
 import AdminSidebar from "../components/dashboard/AdminSidebar";
 import Navbar from "../components/dashboard/Navbar";
-import AdminBody from "../components/dashboard/AdminBody";
 import { Outlet } from "react-router-dom";
 const Admindashboard = () => {
   const { user } = useAuth();

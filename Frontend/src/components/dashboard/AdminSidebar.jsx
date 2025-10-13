@@ -50,15 +50,19 @@ const AdminSidebar = () => {
           <span>Departments</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard"
-          className="flex items-center space-x-4 block py-2.5 px-4 rounded"
+          to="/admin-dashboard/leaves"
+          className={({ isActive }) =>
+            `${
+              isActive ? "bg-cyan-900" : ""
+            } flex items-center space-x-4 block py-2.5 px-4 rounded'`
+          }
         >
           <FaCalendar />
           <span>Leave</span>
         </NavLink>
         <NavLink
           to="/admin-dashboard/salary/add"
-           className={({ isActive }) =>
+          className={({ isActive }) =>
             `${
               isActive ? "bg-cyan-900" : ""
             } flex items-center space-x-4 block py-2.5 px-4 rounded'`
@@ -68,7 +72,7 @@ const AdminSidebar = () => {
           <span>Salary</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard"
+          to="/admin-dashboard/setting"
           className="flex items-center space-x-4 block py-2.5 px-4 rounded"
         >
           <FaCogs />
