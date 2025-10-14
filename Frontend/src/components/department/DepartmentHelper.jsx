@@ -1,7 +1,7 @@
 import react from "react";
 import axios from "axios";
 export const columns = [
-  {
+  {  
     name: "S No",
     selector: (row) => row.sno,
   },

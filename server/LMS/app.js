@@ -11,7 +11,7 @@ import employeeRouter from './routes/employee.js'
 import salaryRouter from './routes/salary.js'
 import leaveRouter from './routes/leave.js'
 import settingRouter from './routes/setting.js'
-  
+import dashboardROuter from './routes/dashboard.js'
   dotenv.config({path: './.env',});
   
   export const envMode = process.env.NODE_ENV?.trim() || 'DEVELOPMENT';
@@ -46,6 +46,7 @@ app.use(morgan('dev'))
   app.use('/api/salary', salaryRouter);
   app.use('/api/leave', leaveRouter);
   app.use('/api/setting', settingRouter);
+  app.use('/api/dashboard' , dashboardROuter)
 
     
   app.get("/", (req, res) => {
