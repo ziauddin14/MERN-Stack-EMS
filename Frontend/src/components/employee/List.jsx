@@ -20,7 +20,7 @@ const List = () => {
 
       if (response.data.success) {
         let sno = 1;
-        const data = response.data.employee.map((emp) => ({
+        const data = response.data.employees.map((emp) => ({
           _id: emp._id,
           sno: sno++,
           dep_name: emp.department?.dep_name,

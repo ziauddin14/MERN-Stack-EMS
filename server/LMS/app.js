@@ -12,6 +12,14 @@ import salaryRouter from './routes/salary.js'
 import leaveRouter from './routes/leave.js'
 import settingRouter from './routes/setting.js'
 import dashboardROuter from './routes/dashboard.js'
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "dtwwqrywm",
+  api_key: "189349552473758",
+  api_secret: "fy6CsKr9WUkl_5MBF1eBEU7jlec",
+});
+
   dotenv.config({path: './.env',});
   
   export const envMode = process.env.NODE_ENV?.trim() || 'DEVELOPMENT';
@@ -47,6 +55,7 @@ app.use(morgan('dev'))
   app.use('/api/leave', leaveRouter);
   app.use('/api/setting', settingRouter);
   app.use('/api/dashboard' , dashboardROuter)
+
 
     
   app.get("/", (req, res) => {

@@ -91,26 +91,32 @@ export const columns = [
     width: "70px",
   },
   {
+    name: "Image",
+    cell: (row) => (
+      <img
+        src={row.profileImage || "/default-profile.png"}
+        alt={row.name}
+        className="w-10 h-10 rounded-full object-cover border"
+      />
+    ),
+    width: "80px",
+  },
+  {
     name: "Name",
     selector: (row) => row.name,
     sortable: true,
-    width: "100",
+    width: "120px",
   },
   {
-    name: " Department",
+    name: "Department",
     selector: (row) => row.dep_name,
-    width: "130px",
+    width: "150px",
   },
   {
     name: "DOB",
     selector: (row) => row.dob,
-    width: "100px",
+    width: "120px",
   },
-  // {
-  //   name: "Image",
-  //   selector: (row) => row.profileImage,
-  //   sortable: true
-  // },
   {
     name: "Action",
     selector: (row) => <EmployeeButtons _id={row._id} />,

@@ -24,31 +24,37 @@ const Add = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // const formDataObj = new FormData();
-    // Object.keys(formData).forEach((key) => {
-    //   formDataObj.append(key, formData[key]);
-    // });
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/employee/add",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        navigate("/admin-dashboard/employee");
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const formDataObj = new FormData();
+
+  Object.keys(formData).forEach((key) => {
+    formDataObj.append(key, formData[key]);
+  });
+
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/api/employee/add",
+      formDataObj, 
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    } catch (error) {
-      if (error.response && !error.response.data.success) {
-        alert(error.response.data.error);
-      }
+    );
+
+    if (response.data.success) {
+      navigate("/admin-dashboard/employee");
     }
-  };
+  } catch (error) {
+    if (error.response && !error.response.data.success) {
+      alert(error.response.data.error);
+    }
+  }
+};
+
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
@@ -252,7 +258,7 @@ const Add = () => {
             </select>
           </div>
           {/*Image Upload*/}
-          {/* <div>
+           <div>
             <label
               htmlFor=""
               className="block text-sm font-medium text-cyan-700"
@@ -267,7 +273,7 @@ const Add = () => {
               accept="image/*"
               className="mt-1 p-2 block w-full border border-cyan-300 rounded-md"
             />
-          </div> */}
+          </div> 
           <button
             type="submit"
             className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 text-lg rounded"

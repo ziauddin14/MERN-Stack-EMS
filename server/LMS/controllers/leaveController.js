@@ -98,17 +98,23 @@ const getLeaveDetails = async (req, res) => {
 const updateLeave = async (req, res) => {
   try {
     const { id } = req.params;
+    const { status } = req.body;
+
     const leave = await Leave.findByIdAndUpdate(
-      { _id: id },
-      { status: req.body.status }
+      id,
+      { status },
+      { new: true }
     );
+
     if (!leave) {
-      res.status(404).json({ success: false, error: "leave not found" });
+      return res.status(404).json({ success: false, error: "Leave not found" });
     }
-    return response.status(200).json({ success: true });
+
+    return res.status(200).json({ success: true, leave });
   } catch (error) {
-    console.error("Get Leave Error:", error);
-    res.status(500).json({ success: false, error: "Leave get server error" });
+    console.error("Update Leave Error:", error);
+    return res.status(500).json({ success: false, error: "Leave update server error" });
   }
 };
+
 export { addLeave, getLeave, getLeaves, getLeaveDetails, updateLeave };

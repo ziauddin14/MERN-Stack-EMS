@@ -21,7 +21,6 @@ const LeaveList = () => {
       }
     } catch (error) {
       console.error("Fetch Error:", error);
-      alert("Error fetching leave data.");
     }
   };
 

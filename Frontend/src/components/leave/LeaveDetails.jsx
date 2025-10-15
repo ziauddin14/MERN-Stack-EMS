@@ -28,14 +28,13 @@ const LeaveDetails = () => {
           console.warn("Leave fetch failed:", response.data);
         }
       } catch (error) {
-        console.error("Error fetching Leave:", error);
+        console.log(error);
       } finally {
         setLoading(false);
       }
     };
     fetchLeave();
   }, [id]); // ✅ yahan par component close nahi karna
-  
 
   if (loading || !leaves?.employeeId?.userId) {
     return (
@@ -57,7 +56,7 @@ const LeaveDetails = () => {
       console.log(response.data);
 
       if (response.data.success) {
-        navigate("/admin-dashboard/leave");
+        navigate("/admin-dashboard/leaves");
       } else {
         console.warn("Leave update failed:", response.data);
       }
@@ -92,9 +91,7 @@ const LeaveDetails = () => {
 
       <div className="flex space-x-3 mb-5">
         <p className="text-lg font-bold">Department:</p>
-        <p className="font-medium">
-          {leaves.employeeId?.department?.dep_name}
-        </p>
+        <p className="font-medium">{leaves.employeeId?.department?.dep_name}</p>
       </div>
 
       <div className="flex space-x-3 mb-5">

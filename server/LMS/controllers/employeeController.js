@@ -1,12 +1,16 @@
 import Employee from "../models/Employee.js";
-import User from "../models/user.js";
 import bcrypt from "bcrypt";
+import User from "../models/user.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // Add Employee
-const addEmployee = async (req, res) => {
-  console.log(req.body);
 
+
+ const addEmployee = async (req, res) => {
   try {
+    console.log(req.body);
+    console.log(req.file); 
+
     const {
       name,
       email,
@@ -19,9 +23,9 @@ const addEmployee = async (req, res) => {
       salary,
       password,
       role,
-      profileImage,
     } = req.body;
 
+    
     const user = await User.findOne({ email });
     if (user) {
       return res
@@ -29,18 +33,28 @@ const addEmployee = async (req, res) => {
         .json({ success: false, error: "User already registered in employee" });
     }
 
+
     const hashPassword = await bcrypt.hash(password, 10);
 
+    
     const newUser = new User({
       name,
       email,
       password: hashPassword,
       role,
-      profileImage: profileImage || "",
     });
 
     const savedUser = await newUser.save();
 
+    
+    let imageUrl = "";
+    if (req.file) {
+      const uploadResult = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = uploadResult.secure_url;
+    }
+
+    console.log(imageUrl);
+    
     const newEmployee = new Employee({
       userId: savedUser._id,
       employeeId,
@@ -50,6 +64,7 @@ const addEmployee = async (req, res) => {
       designation,
       department,
       salary,
+      profileImage: imageUrl, 
     });
 
     await newEmployee.save();
@@ -58,7 +73,7 @@ const addEmployee = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Employee created successfully" });
   } catch (error) {
-    console.log("❌ Error while saving employee:", error);
+    console.log(" Error while saving employee:", error);
     return res.status(500).json({ success: false, error: error.message });
   }
 };
@@ -66,33 +81,35 @@ const addEmployee = async (req, res) => {
 // Get All Employees
 const getEmployee = async (req, res) => {
   try {
-    const employee = await Employee.find()
-      .populate("userId", { password: 0 })
+    const employees = await Employee.find()
+      .populate("userId", "name email profileImage role")
       .populate("department");
 
-    return res.status(200).json({ success: true, employee });
+    return res.status(200).json({ success: true, employees });
   } catch (error) {
+    console.error("get employee error:", error);
     return res
       .status(500)
-      .json({ success: false, error: "get employee server error" });
+      .json({ success: false, error: "get employees server error" });
   }
 };
 
+
 // Get Single Employee
 const getEmployees = async (req, res) => {
-   const {id} = req.params
+  const { id } = req.params;
   try {
-    let employee
-    employee = await Employee.findById({_id: id})
+    let employee;
+    employee = await Employee.findById({ _id: id })
       .populate("userId", { password: 0 })
       .populate("department");
-    
+
     if (!employee) {
-      employee = await Employee.findOne({userId: id})
-      .populate("userId", { password: 0 })
-      .populate("department");
+      employee = await Employee.findOne({ userId: id })
+        .populate("userId", { password: 0 })
+        .populate("department");
     }
-  
+
     return res.status(200).json({ success: true, employee });
   } catch (error) {
     return res
@@ -157,7 +174,7 @@ const updateEmployee = async (req, res) => {
   }
 };
 const fetchEmployeesByDepId = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const employees = await Employee.find({ department: id });
     if (!employees) {

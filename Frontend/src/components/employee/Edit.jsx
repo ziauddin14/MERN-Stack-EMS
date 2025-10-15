@@ -43,14 +43,27 @@ const Edit = () => {
     fetchEmployee();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setEmployee((prev) => ({ ...prev, [name]: files[0] }));
-    } else {
-      setEmployee((prev) => ({ ...prev, [name]: value }));
-    }
-  };
+ const handleChange = (e) => {
+  const { name, value, files } = e.target;
+
+  if (name === "image") {
+    setEmployee((prev) => ({ ...prev, [name]: files[0] }));
+  } else if (name === "department") {
+    
+    setEmployee((prev) => ({
+      ...prev,
+      department: { _id: value },
+    }));
+  } else if (name === "name") {
+    // ye userId ke andar hai
+    setEmployee((prev) => ({
+      ...prev,
+      userId: { ...prev.userId, name: value },
+    }));
+  } else {
+    setEmployee((prev) => ({ ...prev, [name]: value }));
+  }
+};
 
 
   const handleSubmit = async (e) => {

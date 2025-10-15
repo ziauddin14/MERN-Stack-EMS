@@ -11,10 +11,10 @@ const Unauthorized = () => {
         Aapko is page par access nahi hai.
       </p>
       <Link
-        to="/login"
+        to="/employee-dashboard"
         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
       >
-        Go Back to Login Page
+        Go Back to Dashboard 
       </Link>
     </div>
   );

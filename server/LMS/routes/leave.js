@@ -9,4 +9,5 @@ router.get("/detail/:id", getLeaveDetails);
 router.get("/", getLeaves)
 router.put("/:id",  updateLeave)
 
+
 export default router;

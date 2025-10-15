@@ -22,7 +22,6 @@ const ViewSalary = () => {
     } catch (error) {
       console.error("Fetch Error:", error);
       if (error.response && !error.response.data.success) {
-        alert(error.message);
       }
     }
   };

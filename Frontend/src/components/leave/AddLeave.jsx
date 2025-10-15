@@ -23,15 +23,16 @@ const AddLeave = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
-      const response = await axios.post("http://localhost:4000/api/leave/add",leave, {
+      const response = await axios.post("http://localhost:4000/api/leave/add", leave, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
+      
       if (response.data.success) {
-        navigate("/employee-dashboard/leaves");
+        navigate("/employee-dashboard/leave");
       } else {
         console.warn("Employee fetch failed:", response.data);
       }
