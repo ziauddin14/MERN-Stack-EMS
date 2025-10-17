@@ -101,7 +101,7 @@ const getEmployees = async (req, res) => {
   try {
     let employee;
     employee = await Employee.findById({ _id: id })
-      .populate("userId", { password: 0 })
+      .populate("userId", "name email profileImage")
       .populate("department");
 
     if (!employee) {

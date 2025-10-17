@@ -1,51 +1,51 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import DataTable from 'react-data-table-component'
+import DataTable from "react-data-table-component";
 import EmployeeButtons, { columns } from "../../utils/EmployeeHalper";
 import axios from "axios";
 const List = () => {
-  const [employees, setEmployees] = useState([])
-  const [loading, setEmploading] = useState(false)
+  const [employees, setEmployees] = useState([]);
+  const [loading, setEmploading] = useState(false);
 
   useEffect(() => {
-  const fetchEmployee = async () => {
-    setEmploading(true);
-    try {
-      const response = await axios.get("http://localhost:4000/api/employee", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+    const fetchEmployee = async () => {
+      setEmploading(true);
+      try {
+        const response = await axios.get("http://localhost:4000/api/employee", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-      if (response.data.success) {
-        let sno = 1;
-        const data = response.data.employees.map((emp) => ({
-          _id: emp._id,
-          sno: sno++,
-          dep_name: emp.department?.dep_name,
-          name: emp.userId.name,
-          dob: new Date(emp.dob).toLocaleDateString(),
-          profileImage: emp.userId.profileImage,
-          action: <EmployeeButtons id={emp._id} />,
-        }));
+        if (response.data.success) {
+          let sno = 1;
+          const data = response.data.employees.map((emp) => ({
+            _id: emp._id,
+            sno: sno++,
+            dep_name: emp.department?.dep_name || "N/A",
+            name: emp.userId?.name || "Unknown User",
+            dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
+            profileImage: emp.userId?.profileImage || "",
+            action: <EmployeeButtons id={emp._id} />,
+          }));
 
-        setEmployees(data);
-      } else {
-        console.warn("No success field found in response:", response.data);
+          setEmployees(data);
+        } else {
+          console.warn("No success field found in response:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+        if (error.response && !error.response.data.success) {
+          alert(error.response.data.error);
+        }
+      } finally {
+        setEmploading(false);
       }
-    } catch (error) {
-      console.error("Error fetching departments:", error);
-      if (error.response && !error.response.data.success) {
-        alert(error.response.data.error);
-      }
-    } finally {
-      setEmploading(false);
-    }
-  };
+    };
 
-  fetchEmployee();
-}, []);
+    fetchEmployee();
+  }, []);
   return (
     <div>
       <div className="text-center">
@@ -67,7 +67,7 @@ const List = () => {
         </Link>
       </div>
       <div>
-        <DataTable columns={columns} data={employees} pagination/>
+        <DataTable columns={columns} data={employees} pagination />
       </div>
     </div>
   );

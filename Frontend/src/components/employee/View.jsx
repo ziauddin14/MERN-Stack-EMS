@@ -45,7 +45,7 @@ const View = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <img
           src={employee?.profileImage || "/default-profile.png"}
-          alt="Employee"
+          alt="Employee" 
           className="w-48 h-48 object-cover rounded-full mx-auto"
         />
       </div>

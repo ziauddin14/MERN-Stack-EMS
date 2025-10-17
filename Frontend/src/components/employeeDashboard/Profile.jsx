@@ -45,7 +45,7 @@ const Profile = () => {
       <h2 className="text-2xl font-bold mb-8 text-center">Employee Details</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <img
-          src={employee?.userId?.profileImage || "/default-profile.png"}
+          src={employee?.profileImage || "/default-profile.png"}
           alt="Employee"
           className="w-48 h-48 object-cover rounded-full mx-auto"
         />
